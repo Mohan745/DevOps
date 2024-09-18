@@ -1,0 +1,40 @@
+version: '3'
+services:
+  frontend:
+    image: frontend-image
+    build:
+      context: .
+    command: npm start
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    image: backend-image
+    build:
+      context: .
+    command: npm start
+    ports:
+      - "5000:5000"
+    depends_on:
+      - database
+    networks:
+      - app-network
+
+  database:
+    image: postgres
+    environment:
+      POSTGRES_USER: Mohan
+      POSTGRES_PASSWORD: Mohan745
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
